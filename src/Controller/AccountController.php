@@ -24,6 +24,7 @@ class AccountController extends AbstractController
      *
      * @Route("/login", name="account_login")
      *
+     * @param AuthenticationUtils $utils
      * @return Response
      */
     public function login(AuthenticationUtils $utils)

@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -21,7 +22,7 @@ class AccountType extends ApplicationType
             ->add('email', EmailType::class, $this->getConfiguration("Adresse email", "URL de votre avatar"))
             ->add('picture', UrlType::class, $this->getConfiguration("Photo de profil", "Présentez vous en quelques mots"))
             ->add('introduction', TextType::class, $this->getConfiguration("Introduction", "Présentez vous en quelques mots" ))
-            ->add('description', TextType::class, $this->getConfiguration("Description", "C'est le moment de vous présenter en détails !"))
+            ->add('description', TextareaType::class, $this->getConfiguration("Description", "C'est le moment de vous présenter en détails !"))
         ;
         ;
     }

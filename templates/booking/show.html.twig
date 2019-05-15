@@ -8,7 +8,7 @@
 	{% set author = ad.author %}
 
 	<div class="container">
-		<h1>Votre réservation (n°{{ booking.id }})</h1>
+		<h1 class="my-5">Votre réservation (n°{{ booking.id }})</h1>
 
 		{% if app.request.query.get('withAlert') %}
 			<div class="alert alert-success">
@@ -45,36 +45,62 @@
 						<dd class="col-md-8">{{ booking.duration }}</dd>
 						<dt class="col-md-4">Montant total</dt>
 						<dd class="col-md-8">
-							{{ booking.amount }}&euro;
+							{{ booking.amount | number_format(2, ',' , ' ') }}&euro;
 						</dd>
 						<dt class="col-md-4">Commentaires</dt>
-						<dd class="col-md-8">{{ booking.comment }}</dd>
+						<dd class="col-md-8">{{ booking.comment | default('Aucun commentaire')}}</dd>
 					</dl>
+
+
+					<hr>
+
+					<h2 class="alert-heading">Votre hôte</h2>
+
+					<div class="row mb-3">
+						<div class="col-3">
+							<img src="{{ author.picture }}"
+							     class="avatar avatar-medium"
+							     alt="Avatar de {{ author.fullName }}">
+						</div>
+						<div class="col">
+							<h4>
+								<a href="{{ path('user_show', {'slug' : author.slug}) }}">{{ author.fullName }}</a>
+							</h4>
+
+							<span class="badge badge-primary">{{ author.ads|length }} annonces</span>
+
+						</div>
+						{{ author.description|raw }}
+
+						<a href="{{ path("user_show", {'slug': author.slug}) }}"
+						   class="btn btn-primary">voir l'annonce de {{ author.firstName }}</a>
+
+					</div>
+				</div>
+				<div class="alert alert-light" id="comment">
+					<h2 class="alert-heading">Votre avis compte !</h2>
+					{% if date() > date(booking.endDate) %}
+						{% set comment = booking.ad.commentFromAuthor(app.user) %}
+						{% if comment is not null %}
+							<blockquote>
+								{{ comment.content }}
+							</blockquote>
+
+							<strong>Note: </strong>{% include 'partials/rating.html.twig' with {'rating': comment.rating} %}
+						{% else %}
+
+							{{ form_start(form) }}
+							{{ form_widget(form) }}
+							<button type="submit"
+							        class="btn btn-success">Confirmer !</button>
+							{{ form_widget(form) }}
+
+						{% endif %}
+					{% else %}
+						<p>Vous ne pourrez pas noter cette annonce tant que votre voyage ne sera pas complet !</p>
+					{% endif %}
 				</div>
 
-				<hr>
-
-				<h2 class="alert-heading">Votre hôte</h2>
-
-				<div class="row mb-3">
-					<div class="col-3">
-						<img src="{{ author.picture }}"
-						     class="avatar avatar-medium"
-						     alt="Avatar de {{ author.fullName }}">
-					</div>
-					<div class="col">
-						<h4>
-							<a href="{{ path('user_show', {'slug' : author.slug}) }}">{{ author.fullName }}</a>
-						</h4>
-
-						<span class="badge badge-primary">{{ author.ads|length }} annonces</span>
-
-					</div>
-				</div>
-
-				{{ author.description|raw }}
-				<a href="{{ path("user_show", {'slug': author.slug}) }}"
-				   class="btn btn-primary">voir l'annonce de {{ author.firstName }}</a>
 			</div>
 			<div class="col">
 				<div class="alert alert-light">
