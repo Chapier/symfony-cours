@@ -1,8 +1,5 @@
 {
-  "build/0.9b2c4875.js": "/build/0.9b2c4875.js",
-  "build/1.e7184e9c.js": "/build/1.e7184e9c.js",
-  "build/css/app.css": "/build/css/app.c2fcc3da.css",
-  "build/js/ad.js": "/build/js/ad.ef11728f.js",
-  "build/js/app.js": "/build/js/app.f3521afa.js",
-  "build/runtime.js": "/build/runtime.1ba6bf05.js"
+  "build/css/app.css": "/build/css/app.css",
+  "build/js/ad.js": "/build/js/ad.js",
+  "build/js/app.js": "/build/js/app.js"
 }
