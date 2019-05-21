@@ -62,7 +62,7 @@
 					</div>
 				</div>
 
-				<div class="card bg-light">
+				<div class="card bg-light mt-5">
 					<div class="card-header">
 						<h4 class="card-title">Les
 							commentaires</h4>
@@ -113,10 +113,19 @@
 	{{ form_widget(form) }}
 {% endblock %}
 
+
+{#On ne veut pas le label que le widget#}
+{% block _ad_images_entry_row %}
+	<div id="block_{{ id }}">
+		{{ form_widget(form) }}
+	</div>
+{% endblock %}
+
 {#Fonction (entry) qui personnalise le widget#}
 {%  block _ad_images_entry_widget %}
 	<div class="row align-items-center mb-3">
 		<div class="col-4">
+			{{ form_row(form.url) }}
 			{% if value %}
 				<img src="{{ value.url }}" alt="" class="img-fluid">
 			{% endif %}
@@ -131,15 +140,6 @@
 		</div>
 	</div>
 {% endblock %}
-
-
-{#On ne veut pas le label que le widget#}
-{% block _ad_images_entry_row %}
-	<div id="block_{{ id }}">
-		{{ form_widget(form) }}
-	</div>
-{% endblock %}
-
 
 
 {% block javascripts %}

@@ -3,14 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Ad;
-use App\Entity\Image;
 use App\Form\AdType;
 use App\Repository\AdRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,6 +17,8 @@ class AdController extends AbstractController
 {
     /**
      * @Route("/ads", name="ads_index")
+     * @param AdRepository $repo
+     * @return Response
      */
     public function index(AdRepository $repo)
     {
@@ -36,6 +36,8 @@ class AdController extends AbstractController
      * @Route("/ads/new", name="ads_create")
      * @IsGranted("ROLE_USER")
      *
+     * @param Request $request
+     * @param ObjectManager $manager
      * @return Response
      */
     public function create(Request $request, ObjectManager $manager)
@@ -56,6 +58,7 @@ class AdController extends AbstractController
             $ad->setAuthor($this->getUser());
 
             $manager->persist($ad);
+
             $manager->flush();
 
             $this->addFlash(
@@ -80,6 +83,9 @@ class AdController extends AbstractController
      * @Route("/ads/{slug}/edit", name="ads_edit")
      * @Security("is_granted('ROLE_USER') and user === ad.getAuthor() ", message="Cette annonce ne vous appartient pas, vous ne pouvez pas la modifier")
      *
+     * @param Ad $ad
+     * @param Request $request
+     * @param ObjectManager $manager
      * @return Response
      */
     public function edit(Ad $ad, Request $request, ObjectManager $manager)

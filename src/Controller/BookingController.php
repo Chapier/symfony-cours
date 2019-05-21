@@ -41,6 +41,8 @@ class BookingController extends AbstractController
                 );
             }  else {
                 $manager->persist($booking);
+                dump($manager);
+                die();
                 $manager->flush();
 
                 return $this->redirectToRoute('booking_show', ['id' => $booking->getId(), 'withAlert' => true]);
